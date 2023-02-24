@@ -16,7 +16,8 @@ public class ChatExample {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String token = System.getenv("OPENAI_TOKEN");
+//        String token = System.getenv("OPENAI_TOKEN");
+        String token = args == null ? System.getenv("OPENAI_TOKEN"): args[0];
         OpenAiService service = new OpenAiService(token);
         while (true) {
             System.out.print("请输入需要完善的话：");
