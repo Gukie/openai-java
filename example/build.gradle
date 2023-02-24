@@ -2,9 +2,25 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 application {
-    mainClass.set('example.OpenAiApiExample')
+    mainClass.set('example.ChatExample')
 }
 
 dependencies {
     implementation project(":service")
+}
+
+//打jar包需要的配置
+// https://www.baeldung.com/gradle-fat-jar
+jar {
+    // https://stackoverflow.com/questions/67265308/gradle-entry-classpath-is-a-duplicate-but-no-duplicate-handling-strategy-has-b
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes(
+                "Manifest-Version": 1.0,
+                "Main-Class": "example.ChatExample"
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
