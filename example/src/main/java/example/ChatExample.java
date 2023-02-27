@@ -20,24 +20,29 @@ public class ChatExample {
         String token = args == null ? System.getenv("OPENAI_TOKEN"): args[0];
         OpenAiService service = new OpenAiService(token);
         while (true) {
-            System.out.print("请输入需要完善的话：");
+            System.out.print("input something:");
             String name = br.readLine();
             if ("bye".equals(name)) {
                 break;
             }
             doCompletion(service, name);
+            System.out.println();
         }
     }
 
     private static void doCompletion(OpenAiService service, String name) {
-        System.out.println("\nCreating completion for: " + name + "");
         CompletionRequest completionRequest = CompletionRequest.builder()
-                .model("ada")
+                .model("text-davinci-003")
                 .prompt(name)
                 .echo(true)
-                .user("testing")
-                .n(3)
+//                .stream(true)
+                .user("lokia")
+                .bestOf(2)
+//                .n(1)
+                .maxTokens(20)
                 .build();
-        service.createCompletion(completionRequest).getChoices().forEach(System.out::println);
+        service.createCompletion(completionRequest).getChoices().forEach(item ->{
+            System.out.println(item.getText());
+        });
     }
 }

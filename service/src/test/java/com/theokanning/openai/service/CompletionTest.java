@@ -20,8 +20,8 @@ public class CompletionTest {
     @Test
     void createCompletion() {
         CompletionRequest completionRequest = CompletionRequest.builder()
-                .model("ada")
-                .prompt("Somebody once told me the world is gonna roll me")
+                .model("text-davinci-003")
+                .prompt("Suggest three names for an animal that is a superhero")
                 .echo(true)
                 .n(5)
                 .maxTokens(50)
@@ -30,6 +30,9 @@ public class CompletionTest {
                 .build();
 
         List<CompletionChoice> choices = service.createCompletion(completionRequest).getChoices();
+        for (CompletionChoice choice : choices) {
+            System.out.println(choice.toString());
+        }
         assertEquals(5, choices.size());
     }
 }
